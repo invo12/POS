@@ -1,0 +1,70 @@
+CREATE DATABASE BIBLIOTECA; USE BIBLIOTECA;
+CREATE USER 'manager'@'localhost' IDENTIFIED BY 'student';
+GRANT ALL PRIVILEGES ON biblioteca.* TO 'manager'@'localhost';
+
+CREATE USER 'editor'@'localhost' IDENTIFIED BY 'student';
+GRANT SELECT, INSERT, UPDATE,DELETE ON biblioteca.* TO 'editor'@'localhost';(edited)
+[12:43 PM]
+create table carti
+(
+ID INT NOT NULL AUTO_INCREMENT,
+autor VARCHAR(50),
+titlu VARCHAR(50),
+gen VARCHAR(50),
+an DATE,
+editura VARCHAR(50),
+rezumat VARCHAR(500),
+PRIMARY KEY(ID)
+);
+
+create table CartiAutori
+(
+ID_Carte INT NOT NULL,
+ID_User INT NOT NULL,
+FOREIGN KEY (ID_Carte) REFERENCES carti(ID),
+FOREIGN KEY (ID_User ) REFERENCES User(ID),
+PRIMARY KEY (ID_Carte,ID_User)
+);
+
+create table User
+(
+ID INT NOT NULL AUTO_INCREMENT,
+Nume VARCHAR(50),
+Parola VARCHAR(50),
+PRIMARY KEY (ID)
+);
+
+
+create table UserNiv
+(
+ID_User INT NOT NULL,
+ID_Niv INT NOT NULL,
+FOREIGN KEY (ID_User) REFERENCES User(ID),
+FOREIGN KEY (ID_Niv ) REFERENCES NivAcc(ID),
+PRIMARY KEY (ID_User,ID_Niv)
+);
+
+create table NivAcc
+(
+ID INT NOT NULL AUTO_INCREMENT,
+Nume VARCHAR(50),
+PRIMARY KEY (ID)
+);
+
+
+create table BookValid
+(
+BOOK_ID INT NOT NULL,
+FOREIGN KEY (BOOK_ID ) REFERENCES carti(ID),
+PRIMARY KEY (BOOK_ID )
+); 
+
+INSERT INTO NivAcc (nume) values ('autor');
+INSERT INTO NivAcc (nume) values ('editor');
+INSERT INTO NivAcc (nume) values ('manager');
+
+INSERT INTO User (nume,parola,nivelAcces) values("Mihai","student");
+INSERT INTO User (nume,parola,nivelAcces) values("Andrei","student");
+INSERT INTO User (nume,parola,nivelAcces) values("Vlad","student");
+INSERT INTO User (nume,parola,nivelAcces) values("Gabi","student");
+ 
